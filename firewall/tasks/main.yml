@@ -60,7 +60,7 @@
   notify:
     - firewalld.restart
     - firewalld.restart.skipped
-  with_items: "{{ _firewall_services }}"
+  loop: "{{ _firewall_services }}"
 
 - name: service
   service:

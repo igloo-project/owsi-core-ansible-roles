@@ -6,7 +6,7 @@
 
 - name: configurations
   include_tasks: logrotate_item.yml
-  with_items: "{{ _logrotate_items }}"
+  loop: "{{ _logrotate_items }}"
   loop_control:
     label: "{{ _logrotate_item.filename }}"
   vars:

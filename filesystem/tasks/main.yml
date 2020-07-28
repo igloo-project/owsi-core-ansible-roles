@@ -5,7 +5,7 @@
     group: "{{ item.group | default(item.owner) | default('root') }}"
     mode: "{{ item.mode }}"
     state: directory
-  with_items:
+  loop:
     - path: /data
       mode: u=rwx,g=rx,o=rx
     - path: /data/services
@@ -52,7 +52,7 @@
     group: "{{ item.group | default(item.owner) | default('root') }}"
     mode: "{{ item.mode }}"
     state: directory
-  with_items:
+  loop:
     - path: /data/services/pgsql
       mode: u=rwx,g=,o=
       owner: "{{ filesystem_postgresql_user }}"

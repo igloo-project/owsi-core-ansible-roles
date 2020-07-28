@@ -105,7 +105,7 @@
     state: absent
   become: true
   become_user: root
-  with_items:
+  loop:
     - tmp
     - config.json
     - config.synced

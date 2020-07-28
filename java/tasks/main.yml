@@ -27,6 +27,6 @@
 
   - name: install {{ item.type }} {{ item.version }}
     include: java_runtime_item.yml
-    with_items: "{{ java_runtimes }}"
+    loop: "{{ java_runtimes }}"
 
   when: java_runtimes | length > 0

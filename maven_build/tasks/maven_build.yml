@@ -17,7 +17,7 @@
   stat:
     path: "{{ item }}"
   register: check_files
-  with_items: "{{ _mb_check_files }}"
+  loop: "{{ _mb_check_files }}"
 
 - name: project build
   command: "{{ _mb_mvn_command }}"
@@ -30,7 +30,7 @@
   stat:
     path: "{{ item }}"
   register: check_files
-  with_items: "{{ _mb_check_files }}"
+  loop: "{{ _mb_check_files }}"
 
 - name: project check files
   fail:

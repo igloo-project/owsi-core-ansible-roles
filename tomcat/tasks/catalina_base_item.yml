@@ -12,7 +12,7 @@
         group: "{{ _catalina_base_group }}"
         mode: u=rwx,g=rwx,o=rx
         state: directory
-      with_items:
+      loop:
         - "{{ _catalina_base_path }}"
 
     - name: tomcat · catalina_base · subdirectories "{{ _catalina_base_path }}"
@@ -22,7 +22,7 @@
         group: "{{ _catalina_base_group }}"
         mode: u=rwx,g=rx,o=rx
         state: directory
-      with_items:
+      loop:
         - "{{ _catalina_base_path }}/bin"
         - "{{ _catalina_base_path }}/conf"
         - "{{ _catalina_base_path }}/lib"
@@ -54,7 +54,7 @@
     - name: "tomcat · catalina_base · files {{ _catalina_base_path }}"
       stat:
         path: "{{ _catalina_base_path }}/{{ item.path | relpath(tomcat_dest) }}"
-      with_items: "{{ catalina_home_files.files }}"
+      loop: "{{ catalina_home_files.files }}"
       loop_control:
         label: "{{ item.path | relpath(tomcat_dest) }}"
       register: catalina_base_files
@@ -68,7 +68,7 @@
         owner: "{{ _catalina_base_user }}"
         group: "{{ _catalina_base_group }}"
         mode: u=rw,g=rw,o=r
-      with_items: "{{ catalina_base_files.results }}"
+      loop: "{{ catalina_base_files.results }}"
       loop_control:
         label: "{{ item.item.path | relpath(tomcat_dest) }}"
       when: not item.stat.exists and not item.invocation.module_args.path | basename == 'logging.properties'
@@ -161,7 +161,7 @@
         regexp: "^{{ item.line }}"
         insertafter: EOF
         state: present
-      with_items:
+      loop:
         - { line: '# {{ playbook_remote_user }} user' }
         - { line: '{{ playbook_remote_user }} ALL=NOPASSWD: {{ _systemctl_command }} restart tomcat@{{playbook_application_name}}' }
         - { line: '{{ playbook_remote_user }} ALL=NOPASSWD: {{ _systemctl_command }} start tomcat@{{playbook_application_name}}' }

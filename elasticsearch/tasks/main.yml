@@ -45,7 +45,7 @@
     mode: u=rwX
     owner: "{{ _elasticsearch_user }}"
     group: "{{ _elasticsearch_group }}"
-  with_items:
+  loop:
     - "{{ _elasticsearch_base_path }}"
     - "{{ _elasticsearch_conf_path }}"
     - "{{ _elasticsearch_data_path }}"
@@ -199,7 +199,8 @@
 
 - name: plugins
   include: plugin.yml
-  with_items: "{{ _elasticsearch_plugins }}"
+  loop:
+    - "{{ _elasticsearch_plugins }}"
   loop_control:
     loop_var: plugin
     label: "{{ plugin.name }}"

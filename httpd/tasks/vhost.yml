@@ -57,7 +57,7 @@
     - httpd.restart.skipped
   become: yes
   become_user: root
-  with_items: "{{ _httpd_custom_vhosts }}"
+  loop: "{{ _httpd_custom_vhosts }}"
   loop_control:
     loop_var: vhost_item
     label: "{{ vhost_item.filename }}"
@@ -71,7 +71,7 @@
     mode: u=rw,g=r,o=r
   become: yes
   become_user: root
-  with_items: "{{ _httpd_custom_vhosts }}"
+  loop: "{{ _httpd_custom_vhosts }}"
   when: vhost_item['robots_txt'] | default('') != ''
   loop_control:
     loop_var: vhost_item

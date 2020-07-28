@@ -2,7 +2,7 @@
   package:
     name: "{{ item }}"
     state: present
-  with_items: "{{ _httpd_packages | distro(vars) }}"
+  loop: "{{ _httpd_packages | distro(vars) }}"
   become: yes
   become_user: root
   when: httpd_step_install
@@ -12,7 +12,7 @@
     path: "/etc/apache2/mods-enabled/{{ item | basename }}"
     state: link
     src: "{{ item }}"
-  with_items:
+  loop:
     - /etc/apache2/mods-available/rewrite.load
     - /etc/apache2/mods-available/proxy.conf
     - /etc/apache2/mods-available/proxy.load
@@ -30,7 +30,7 @@
       proto: tcp
       setype: http_port_t
       state: present
-    with_items:
+    loop:
       - "{{ _httpd_ajp_port }}"
     loop_control:
       loop_var: _port
@@ -55,7 +55,7 @@
     file:
       path: "{{ _httpd_configuration_folder }}/{{ item }}"
       state: absent
-    with_items:
+    loop:
       - autoindex.conf
       - README
       - userdir.conf

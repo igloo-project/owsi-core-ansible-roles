@@ -7,6 +7,6 @@
 
 - name: tomcat · prepare instances
   include_tasks: catalina_base_item_wrapper.yml
-  with_items: "{{ tomcat_catalina_bases }}"
+  loop: "{{ tomcat_catalina_bases }}"
   loop_control:
     loop_var: catalina_base
